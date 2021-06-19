@@ -28,31 +28,52 @@ export default class ProxyEvents {
   }
 
   private onError(ev) {
-    this._app.emit('error', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('error', { ...ev, currentTime, duration, playing });
   }
 
   private onEnded(ev) {
-    this._app.emit('ended', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('ended', { ...ev, currentTime, duration, playing });
   }
 
   private onTimeUpdate(ev) {
-    this._app.emit('timeupdate', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('timeupdate', { ...ev, currentTime, duration, playing });
   }
 
   private onCanPlay(ev) {
-    this._app.emit('canplaythrough', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('canplaythrough', { ...ev, currentTime, duration, playing });
   }
 
   private onLoadedData(ev) {
-    this._app.emit('loadeddata', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('loadeddata', { ...ev, currentTime, duration, playing });
   }
 
   private onPlay(ev) {
-    this._app.emit('play', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('play', { ...ev, currentTime, duration, playing });
   }
 
   private onPause(ev) {
-    this._app.emit('pause', ev);
+    const currentTime = this._app.currentTime;
+    const duration = this._app.duration;
+    const playing = this._app.playing;
+    this._app.emit('pause', { ...ev, currentTime, duration, playing });
   }
 
 }

@@ -1,5 +1,6 @@
 import Observer from "./utils/observer";
 import ProxyEvents from "./utils/proxyevents";
+import { WandsProps } from './types';
 
 class Wands extends Observer {
   _media: HTMLVideoElement | HTMLAudioElement;
@@ -8,8 +9,9 @@ class Wands extends Observer {
   _startTime: number;
   _endTime: number;
 
-  constructor(media, options) {
+  constructor(args: WandsProps) {
     super();
+    const { media } = args;
     if (!media) throw new Error(`${media} is not an HTMLVideoElement type or an HTMLAudioElement type parameter`);
     this._media = media;
     this._frameKey = null;
@@ -73,11 +75,7 @@ class Wands extends Observer {
       }
     }
 
-    this.emit('timeupdate', {
-      playing,
-      currentTime,
-      duration
-    });
+    this.emit('timeupdate', { playing, currentTime, duration });
 
     this._frameKey = window.requestAnimationFrame(this.checkProgresses);
   }
