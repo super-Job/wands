@@ -1,8 +1,4 @@
-
-interface Events {
-  [key: string]: Array<Function>
-}
-
+import { Events } from '../types';
 export default class Observer {
   events: Events | null;
 
