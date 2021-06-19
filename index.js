@@ -128,7 +128,7 @@ class Wands extends Observer {
   }
 
   get duration() {
-    return this._media.duration;
+    return this._media.duration * 1000;
   }
 
   get playing() {
