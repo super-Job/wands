@@ -53,7 +53,9 @@ class Wands extends Observer {
   }
 
   private checkProgresses() {
-    const { duration, currentTime, playing } = this;
+    const duration = this.duration;
+    const currentTime = this.currentTime;
+    const playing = this.playing;
 
     if (!isNaN(this.endTime)) {
       if (this.endTime < duration && this, currentTime >= this.endTime) {
