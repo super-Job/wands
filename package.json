@@ -1,6 +1,6 @@
 {
   "name": "wands",
-  "version": "0.0.3-beta0.1",
+  "version": "0.0.3-beta0.2",
   "description": "A native audio and video player extension class, using less code to achieve more functions",
   "main": "index.ts",
   "scripts": {
