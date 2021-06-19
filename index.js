@@ -1,64 +1,45 @@
 import Observer from "./utils/observer";
 import ProxyEvents from "./utils/proxyevents";
-import { WandsProps } from './types';
 
 class Wands extends Observer {
-  _media: HTMLVideoElement | HTMLAudioElement;
-  _proxy: ProxyEvents;
-  _frameKey: any;
-  _startTime: number;
-  _endTime: number;
-
-  constructor(media: HTMLVideoElement | HTMLAudioElement, options?: any) {
+  constructor(media) {
     super();
     if (!media) throw new Error(`${media} is not an HTMLVideoElement type or an HTMLAudioElement type parameter`);
     this._media = media;
     this._frameKey = null;
-    this.startTime = NaN;
-    this.endTime = NaN;
+    this._startTime = NaN;
+    this._endTime = NaN;
     this._proxy = new ProxyEvents(this);
+    window.wands = this;
   }
 
-  public toggle() {
+  toggle() {
     if (!this.playing) this.play();
     else this.pause();
   }
 
-  public pause() {
+  pause() {
     this._media.pause();
   }
 
-  public play() {
+  play() {
     if (this.currentTime >= this.endTime && !isNaN(this.startTime)) {
       this.currentTime = this.startTime;
     }
 
     this._media.play();
 
-    window.cancelAnimationFrame(this._frameKey);
+    this.cancelCheckProgresses();
     this.checkProgresses();
   }
 
-  public removeListener(name: string, fn: Function) {
-    this.remove(name, fn);
-  }
-
-  public removeListenerAll() {
-    this.clear();
-  }
-
-  public destory() {
-    this.clear();
-    this._proxy.destory();
-  }
-
-  private checkProgresses() {
+  checkProgresses() {
     const duration = this.duration;
     const currentTime = this.currentTime;
     const playing = this.playing;
 
     if (!isNaN(this.endTime)) {
-      if (this.endTime < duration && this, currentTime >= this.endTime) {
+      if (this.endTime < duration && this.currentTime >= this.endTime) {
         if (!this.loop) {
           this.pause();
           this.emit('ended', {});
@@ -78,10 +59,27 @@ class Wands extends Observer {
 
     this.emit('timeupdate', { playing, currentTime, duration });
 
-    this._frameKey = window.requestAnimationFrame(this.checkProgresses);
+    this._frameKey = window.requestAnimationFrame(this.checkProgresses.bind(this));
   }
 
-  set startTime(time: number) {
+  cancelCheckProgresses() {
+    window.cancelAnimationFrame(this._frameKey);
+  }
+
+  removeListener(name, fn) {
+    this.remove(name, fn);
+  }
+
+  removeListenerAll() {
+    this.clear();
+  }
+
+  destory() {
+    this.clear();
+    this._proxy.destory();
+  }
+
+  set startTime(time) {
     this._startTime = time;
   }
 
@@ -89,7 +87,7 @@ class Wands extends Observer {
     return this._startTime;
   }
 
-  set endTime(time: number) {
+  set endTime(time) {
     this._endTime = time;
   }
 
@@ -97,7 +95,7 @@ class Wands extends Observer {
     return this._endTime;
   }
 
-  set currentTime(time: number) {
+  set currentTime(time) {
     this._media.currentTime = time / 1000;
   }
 
@@ -105,7 +103,7 @@ class Wands extends Observer {
     return this._media.currentTime * 1000;
   }
 
-  set loop(loop: boolean) {
+  set loop(loop) {
     this._media.loop = loop;
   }
 
@@ -113,7 +111,7 @@ class Wands extends Observer {
     return this._media.loop;
   }
 
-  set volume(vol: number) {
+  set volume(vol) {
     this._media.volume = vol;
   }
 
@@ -121,7 +119,7 @@ class Wands extends Observer {
     return this._media.volume;
   }
 
-  set src(url: string) {
+  set src(url) {
     this._media.src = url;
   }
 
@@ -134,7 +132,7 @@ class Wands extends Observer {
   }
 
   get playing() {
-    return !this._media.pause && !this._media.ended;
+    return !this._media.paused && !this._media.ended;
   }
 
 

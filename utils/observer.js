@@ -1,12 +1,10 @@
-import { Events } from '../types';
-export default class Observer {
-  events: Events | null;
+class Observer {
 
   constructor() {
     this.events = null
   }
 
-  public on(name: string, fn: Function) {
+  on(name, fn) {
     if (!this.events) {
       this.events = {};
     }
@@ -20,11 +18,11 @@ export default class Observer {
     return {
       name,
       callback: fn,
-      remove: (name: string, fn: Function) => this.remove(name, fn)
+      remove: (name, fn) => this.remove(name, fn)
     }
   }
 
-  public emit(name: string, args: any) {
+  emit(name, args) {
     if (!this.events) return;
 
     const events = this.events[name];
@@ -35,7 +33,7 @@ export default class Observer {
     }
   }
 
-  public remove(name: string, fn: Function) {
+  remove(name, fn) {
     if (!this.events) return;
 
     const events = this.events[name];
@@ -45,12 +43,12 @@ export default class Observer {
     }
   }
 
-  public clear() {
+  clear() {
     this.events = null;
   }
 
 
-  public once(name: string, fn: Function) {
+  once(name, fn) {
     if (!this.events) {
       this.events = {};
     };
@@ -66,3 +64,5 @@ export default class Observer {
   }
 
 }
+
+export default Observer;
