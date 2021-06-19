@@ -9,9 +9,8 @@ class Wands extends Observer {
   _startTime: number;
   _endTime: number;
 
-  constructor(args: WandsProps) {
+  constructor(media: HTMLVideoElement | HTMLAudioElement, options?: any) {
     super();
-    const { media } = args;
     if (!media) throw new Error(`${media} is not an HTMLVideoElement type or an HTMLAudioElement type parameter`);
     this._media = media;
     this._frameKey = null;
