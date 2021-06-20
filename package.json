@@ -1,11 +1,10 @@
 {
   "name": "wands",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A native audio and video player extension class, using less code to achieve more functions",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
   },
   "repository": {
     "type": "git",

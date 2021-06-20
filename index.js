@@ -127,6 +127,14 @@ class Wands extends Observer {
     return this._media.src;
   }
 
+  set range(range) {
+    this._media.range = range;
+  }
+
+  get range() {
+    return this._media.range;
+  }
+
   get duration() {
     return this._media.duration * 1000;
   }
