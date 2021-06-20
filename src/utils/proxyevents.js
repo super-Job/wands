@@ -16,10 +16,11 @@ class ProxyEvents {
     }
 
     function onEnded(ev) {
-      _app.cancelCheckProgresses();
       const currentTime = _app.currentTime;
       const duration = _app.duration;
       const playing = _app.playing;
+
+      _app.cancelCheckProgresses();
       _app.emit('ended', { ...ev, currentTime, duration, playing });
       _app.emit('playstatus', { ...ev, currentTime, duration, playing: false });
     }
@@ -50,7 +51,7 @@ class ProxyEvents {
       const duration = _app.duration;
       const playing = _app.playing;
       _app.emit('play', { ...ev, currentTime, duration, playing });
-      _app.emit('playstatus', { playing: true, currentTime, duration })
+      _app.emit('playstatus', { ...ev, playing: true, currentTime, duration })
     }
 
     function onPause(ev) {

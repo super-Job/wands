@@ -114,7 +114,7 @@ wands.once("playstatus",onPlayStatus);
 
 ```
 
-### wands.romove or wands.removeListener
+### wands.remove or wands.removeListener
 取消订阅
 ```javascript
 const wands = new Wands(video); // 接收video或者audio的dom;
