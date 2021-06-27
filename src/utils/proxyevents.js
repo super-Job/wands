@@ -18,10 +18,9 @@ class ProxyEvents {
     function onEnded(ev) {
       const currentTime = _app.currentTime;
       const duration = _app.duration;
-      const playing = _app.playing;
 
       _app.cancelCheckProgresses();
-      _app.emit('ended', { ...ev, currentTime, duration, playing });
+      _app.emit('ended', { ...ev, currentTime, duration, playing: false });
       _app.emit('playstatus', { ...ev, currentTime, duration, playing: false });
     }
 
@@ -49,17 +48,30 @@ class ProxyEvents {
     function onPlay(ev) {
       const currentTime = _app.currentTime;
       const duration = _app.duration;
-      const playing = _app.playing;
-      _app.emit('play', { ...ev, currentTime, duration, playing });
-      _app.emit('playstatus', { ...ev, playing: true, currentTime, duration })
+      _app.emit('play', { ...ev, currentTime, duration, playing: true });
+      _app.emit('playstatus', { ...ev, playing: true, currentTime, duration });
     }
 
     function onPause(ev) {
       const currentTime = _app.currentTime;
       const duration = _app.duration;
+      _app.emit('playstatus', { ...ev, playing: false, currentTime, duration })
+      _app.emit('pause', { ...ev, currentTime, duration, playing: false });
+    }
+
+
+    function onComplete(ev) {
+      const currentTime = _app.currentTime;
+      const duration = _app.duration;
       const playing = _app.playing;
-      _app.emit('pause', { ...ev, currentTime, duration, playing });
-      _app.emit('playstatus', { ...ev, playing: false, currentTime, duration });
+      _app.emit('complete', { ...ev, currentTime, duration, playing });
+    }
+
+    function onDurationChange(ev) {
+      const currentTime = _app.currentTime;
+      const duration = _app.duration;
+      const playing = _app.playing;
+      _app.emit('durationchange', { ...ev, currentTime, duration, playing });
     }
 
     this._app._media.addEventListener('error', onError);
@@ -69,6 +81,8 @@ class ProxyEvents {
     this._app._media.addEventListener('loadeddata', onLoadedData);
     this._app._media.addEventListener('play', onPlay);
     this._app._media.addEventListener('pause', onPause);
+    this._app._media.addEventListener('complete', onComplete);
+    this._app._media.addEventListener('durationchange', onDurationChange);
 
     return () => {
       this._app._media.removeEventListener('error', onError);
@@ -78,6 +92,8 @@ class ProxyEvents {
       this._app._media.removeEventListener('loadeddata', onLoadedData);
       this._app._media.removeEventListener('play', onPlay);
       this._app._media.removeEventListener('pause', onPause);
+      this._app._media.removeEventListener('complete', onComplete);
+      this._app._media.removeEventListener('durationchange', onDurationChange);
     }
   }
 }

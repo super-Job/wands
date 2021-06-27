@@ -124,6 +124,8 @@ class Wands extends Observer {
   }
 
   get src() {
+    this.startTime = NaN;
+    this.endTime = NaN;
     return this._media.src;
   }
 
@@ -135,6 +137,22 @@ class Wands extends Observer {
     return this._media.playbackRate;
   }
 
+  set muted(muted) {
+    this._media.muted = muted;
+  }
+
+  get muted() {
+    return this._media.muted;
+  }
+
+  set controls(c) {
+    this._media.controls = c;
+  }
+
+  get controls() {
+    return this._media.controls;
+  }
+
   get duration() {
     return this._media.duration * 1000;
   }
@@ -143,6 +161,9 @@ class Wands extends Observer {
     return !this._media.paused && !this._media.ended;
   }
 
+  get player() {
+    return this._media;
+  }
 
 }
 

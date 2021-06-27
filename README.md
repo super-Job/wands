@@ -1,7 +1,7 @@
 # wands
 A native audio and video player extension class, using less code to achieve more functions
 ### Author's own account
-作者是个刚刚入行前端开发一年多的一个前端工作者,对计算机技术无比的热情,目前从事音视频领域的前端开发工作,遇到过很多疑问,包括现在也是,希望借着wands这个开源项目的机会,可以和众多开发者交流学习,同时也为社区生态做一点事情.由于刚刚进入行业不久,对很多技术的应用和开源的规范并不熟悉.也希望同行们可以多多建议
+目标是打造一个可以通过简单的调用API,和简单的配置,就可以实现各种复杂的播放功能的一个类库
 ### Project brief
 目前wands支持部分原生事件,并在此基础上,提供了额外的事件用来完善媒体播放的各种场景的需求.此外也提供了部分自定义API供您使用.我希望可以借此来简化音视频开发过程的额外操作,目前是个初步的构想,后面会逐步完善,敬请期待
 
@@ -167,57 +167,51 @@ wands.destory();
 所有代理事件的事件对象中,都加入了currentTime,duration,playing三个自定义属性,wands将全部暴露在外的时间,以及接收的时间规范为毫秒
 ### loadeddata
 媒体加载完成第一帧,已经可以播放,在此事件,以及在其后触发的事件中可以取到有效的duration, 可以作为视频加载成功的标志;
-
 ### canplaythrough
 媒体完全加载,与loadeddata的区别主要在于,此事件触发时,表示媒体已经加载完成,加载的数据足够满足播放到最后,无需额外的加载
-
 ### play
 当媒体开始播放时触发
-
 ###  pause
 当媒体暂停播放时触发
-
 ### ended
 当媒体停止播放时触发, 因此事件为在代理事件的基础上,进行了扩展, 在设置了endTime时,播放到endTime会触发ended事件
-
 ### timeupdate
 当媒体currentTime改变时,以及开始播放之后, 结束播放之前会被触发, 该事件也是基于原生事件进行了代理扩展, 播放时,提高了触发频率,将会以大约16ms每次的频率被触发.
-
 ### playstatus
 当媒体播放状态发生变化时触发,比如播放 -> 暂停/结束; 暂停/结束 -> 播放的变化过程都会进行触发, 该事件为自定义事件
-
+### complete
+OfflineAudioContext渲染完成。
+### durationchange
+ duration 属性的值改变时触发。
 ### error
 当媒体出现错误时触发
-
 # 属性
 ## 可读写属性(写入时间的属性,单位一律为毫秒)
-startTime
+### startTime<number>
 播放的开始时间, 当被设置了一个有效时间后,每次播放将会从startTime开始播放,循环播放也将会从startTime开始新的循环
-
-endTime
+### endTime<number>
 播放的结束时间, 当被设置了一个有效时间后,每次播放将会以endTime为结束时间,循环播放也将会从endTime结束当前的循环
-
-currentTime
+### currentTime<number>
 媒体播放的当前事件,当被设置了一个有效时间时,媒体会跳到该时间的位置
-
-loop
+### loop<boolean>
 循环播放,接收一个boolean
-
-volume
+### volume<number>
 媒体音量
-
-range
+### range<number>
 播放速率
-
-src
+### src<string>
 当前播放资源的资源地址
-
+### muted<boolean>
+当前是否为静音播放
+### controls<boolean>
+当前是否使用了原生控件
 ## 只读属性
-duration
+### duration<number>
 当前媒体的总时长
-
-playing
+### playing<boolean>
 当前媒体的播放状态
+### player<HTMLVideoElement | HTMLAudioElement>
+HTMLVideoElement 或 HTMLAudioElement类型,当前video 或 audio的原生DOM
 
-##### 当前为测试版本, 不建议生产环境使用
-
+##### 当前为测试版本, 暂时不建议生产环境使用
+##### 更多功能正在开发中...
